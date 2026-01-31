@@ -1,0 +1,15 @@
+# Build outputs
+obj/
+bin/Debug/
+# Ignore Relase build outputs except for the publish folder
+# So, only the .exe is uploaded to the repository
+bin/Release/net9.0/win-x64/*
+!bin/Release/net9.0/win-x64/publish/
+bin/Release/net9.0/win-x64/publish/ShutDownTimer.pdb
+
+# IDE Specific Files
+.idea/
+.vs/
+
+# User Specific Files
+.user

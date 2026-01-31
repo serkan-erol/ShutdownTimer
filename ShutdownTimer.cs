@@ -14,7 +14,7 @@ try
         return;
     }
 
-    // Convert minutes to seconds to give to shutdown.exe
+    // Convert minutes to seconds because the shutdown.exe takes the parameter as time in seconds 
     int shutdownTimeSecs =  shutdownTimeMins * 60;
     
     // Create and configure a shutdown process
@@ -23,6 +23,8 @@ try
     shutdownProcess.StartInfo.Arguments = $"/s /t {shutdownTimeSecs}";
 
     shutdownProcess.Start();
+
+    Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Shutdown timer has been set.");
     
     // Still use shutdownTimeMins for the message to avoid unnecessary division
@@ -36,13 +38,17 @@ try
                               $"and {shutdownTimeMins % 60} minutes");
             break;
     }
-    
+
+    Console.ResetColor();
+
     Console.WriteLine("Press any key to exit...");
     Console.ReadKey();
 }
 catch (Exception ex)
 {
+    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine($"Error: {ex.Message}");
     Console.WriteLine("Press any key to exit...");
+    Console.ResetColor();
     Console.ReadKey();
 }
