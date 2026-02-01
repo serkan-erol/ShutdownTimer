@@ -8,8 +8,10 @@ using System.Diagnostics;
 Console.ForegroundColor = ConsoleColor.Cyan;
 Console.WriteLine("\nChoose the operation you want to do:");
 Console.ResetColor();
-Console.WriteLine("1 - Schedule shutdown with a timer");
-Console.WriteLine("2 - Cancel shutdown\n");
+Console.WriteLine("1 - Schedule shutdown");
+Console.WriteLine("2 - Cancel shutdown");
+Console.WriteLine("3 - Restart computer");
+Console.WriteLine("4 - Exit\n");
 
 // Read user input (a single key press) without displaying it on the console
 ConsoleKeyInfo input = Console.ReadKey(true);
@@ -19,9 +21,13 @@ var option = input.Key; // D1 or NumPad1 for option 1, D2 or NumPad2 for option 
 
 // Validate input: loop until the user provides a valid option (1 or 2)
 while (option != ConsoleKey.D1 &&       // Digit 1
-       option != ConsoleKey.D2 &&       // Digit 2
        option != ConsoleKey.NumPad1 &&  // NumPad 1
-       option != ConsoleKey.NumPad2)    // NumPad 2
+       option != ConsoleKey.D2 &&       // Digit 2
+       option != ConsoleKey.NumPad2 &&  // NumPad 2
+       option != ConsoleKey.D3 &&       // Digit 3
+       option != ConsoleKey.NumPad3 &&  // NumPad 3
+       option != ConsoleKey.D4 &&       // Digit 4
+       option != ConsoleKey.NumPad4)    // NumPad 4
 {
     // Clear the console before re-displaying the menu
     Console.Clear();
@@ -29,8 +35,10 @@ while (option != ConsoleKey.D1 &&       // Digit 1
 
     Console.WriteLine("\nPlease choose a valid option.");
     Console.ResetColor();
-    Console.WriteLine("1 - Set shutdown with a timer");
-    Console.WriteLine("2 - Cancel shutdown\n");
+    Console.WriteLine("1 - Schedule shutdown");
+    Console.WriteLine("2 - Cancel shutdown");
+    Console.WriteLine("3 - Restart computer");
+    Console.WriteLine("4 - Exit\n");
 
     input = Console.ReadKey(true);
     option = input.Key;
@@ -39,7 +47,8 @@ while (option != ConsoleKey.D1 &&       // Digit 1
 // Clear the console before next steps
 Console.Clear();
 
-if (option == ConsoleKey.D1 || 
+// Schedule shutdown option
+if (option == ConsoleKey.D1 ||
     option == ConsoleKey.NumPad1)
 {
     try
@@ -47,7 +56,7 @@ if (option == ConsoleKey.D1 ||
         Console.WriteLine("Checking if there is already a shutdown scheduled...");
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("If there is, it will be cancelled!");
-        
+
         Console.ForegroundColor = ConsoleColor.Green;
         // Check and cancel any existing shutdown timer
         Process cancelExistingShutdownProcess = new Process();
@@ -58,11 +67,7 @@ if (option == ConsoleKey.D1 ||
         Console.WriteLine("Cancellation completed.");
         Console.ResetColor();
 
-
         Console.WriteLine("\nHow many minutes do you need before shutdown?");
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Entering '0' will shutdown the PC immediately!");
-        Console.ResetColor();
         Console.Write("Minutes: ");
 
         // Read, parse, and validate the input
@@ -73,7 +78,7 @@ if (option == ConsoleKey.D1 ||
          * or the user enters a negative value
          * the user is prompted to enter a valid number.
          */
-        while (shutdownTimeMins < 0)
+        while (shutdownTimeMins < 1)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -102,11 +107,11 @@ if (option == ConsoleKey.D1 ||
         switch (shutdownTimeMins)
         {
             case < 60:
-                Console.WriteLine($"Computer will shutdown in {shutdownTimeMins} minutes");
+        Console.WriteLine($"Computer will shutdown in {shutdownTimeMins} minutes");
                 break;
             default:
-                Console.WriteLine($"Computer will shutdown in {shutdownTimeMins / 60} hours " +
-                                  $"and {shutdownTimeMins % 60} minutes");
+        Console.WriteLine($"Computer will shutdown in {shutdownTimeMins / 60} hours " +
+                          $"and {shutdownTimeMins % 60} minutes");
                 break;
         }
         Console.ResetColor();
@@ -123,8 +128,9 @@ if (option == ConsoleKey.D1 ||
         Console.ReadKey();
     }
 }
-else if(option == ConsoleKey.D2 || 
-        option == ConsoleKey.NumPad2) // option == 2
+// Cancel shutdown option
+else if (option == ConsoleKey.D2 ||
+         option == ConsoleKey.NumPad2) // option == 2
 {
     try
     {
@@ -154,4 +160,39 @@ else if(option == ConsoleKey.D2 ||
         Console.ReadKey();
     }
 }
+// Restart option
+else if (option == ConsoleKey.D3 ||
+         option == ConsoleKey.NumPad3) // option == 3
+{
+    try
+    {
+        Console.WriteLine("Restarting computer...");
+        // Create and configure a restart process
+        Process restartProcess = new Process();
+        restartProcess.StartInfo.FileName = "shutdown.exe";
+        restartProcess.StartInfo.Arguments = "/r /f";
+        restartProcess.Start();
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Restart command issued.");
+        Console.ResetColor();
+    }
+    catch (Exception ex)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.ResetColor();
+    }
+    finally
+    {
+        Console.WriteLine("\nPress any key to exit...");
+        Console.ReadKey();
+    }
+}
+else // option == 4
+{
+    Console.WriteLine("Exiting application...");
+    await Task.Delay(300); // Small delay before exiting
+}
+
 Console.Clear();
