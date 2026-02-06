@@ -11,18 +11,19 @@ ShutdownTimer
     the time setting, and you can enter the amount of time in minutes instead of seconds. 
     Saving precious seconds!
 
-        - Now it also has an option to cancel a scheduled shutdown/restart! 
+        - Now, it also has an option to cancel a scheduled shutdown/restart! 
 
-        - Now, restart and restart to BIOS options have been added, and they support
-    timers, as well. Restart to BIOS requires admin privileges to work. 
-    So, if you want to go straight to BIOS after a restart, run the program as administrator.
-    In total, it does the job of 4 shortcuts in one simple program.
+        - Now, 'Restart' and 'Restart to BIOS' options have been added. Regular restart 
+    supports scheduling with a timer, as well. Restart to BIOS requires admin privileges 
+    to work, and restarts immediately. So, if you want to go straight to BIOS after a restart, 
+    run the program as administrator. 
+    In total, it does the job of 4 different shutdown.exe shortcuts in one simple program.
 
         - If you have already scheduled a shutdown/restart via this program or 
-    shutdown.exe, and you run this program again to schedule another shutdown or
-    restart, this action will override* the previous scheduled shutdown.
+    shutdown.exe shorcut, and you run this program again to schedule another shutdown or
+    restart, this action will override* the previous scheduled shutdown/restart.
     *Note: It will cancel the old one and schedule a new one.        
 
         - It is self-contained, meaning you do not need anything else for it to work. 
     It is 64-bit Windows only. You can find the exe file at: 
-    bin/Release/net9.0/win-x64/publish
+    bin/Release/net10.0/win-x64/publish
